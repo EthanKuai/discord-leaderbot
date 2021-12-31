@@ -106,7 +106,6 @@ class FacilCog(commands.Cog):
 			await ctx.send("Invalid quest number. Use `.quest <quest no.> <trophies>` to update trophies for specific quest.", delete_after=10)
 			return
 
-
 		# update scoreboard & save locally
 		tmp[tmp["group"]==group]["Q"+str(which)] = value
 		self.db.save_scoreboard()

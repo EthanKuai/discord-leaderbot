@@ -30,10 +30,10 @@ db = db_accessor()
 bot_cogs = {
 	'owner':OwnerCog(bot, db),
 	'facils':FacilCog(bot, db),
-	'manager':ManagerCog(bot, db),
 	'setup':SetupCog(bot, db),
 	'roles':RoleCog(bot, db)
 }
+bot_cogs['manager'] = ManagerCog(bot, db, bot_cogs['facils'])
 
 
 # bot commands

@@ -2,14 +2,16 @@ import discord
 from discord.ext import commands
 
 from bot import *
+from .facils import FacilCog
 
 
 class ManagerCog(commands.Cog):
 	"""Regarding manager role given to those to reset the game etc."""
 
-	def __init__(self, bot: commands.bot, db: db_accessor):
+	def __init__(self, bot: commands.bot, db: db_accessor, facil: FacilCog):
 		self.bot = bot
 		self.db = db
+		self.facil = facil
 
 
 	@commands.command()
@@ -19,6 +21,7 @@ class ManagerCog(commands.Cog):
 	async def reset(self, ctx):
 		"""resets game"""
 		self.db.reset_scoreboard()
+		await self.facil.display_details()
 		await ctx.reply("Game reset!")
 
 
