@@ -29,8 +29,7 @@ db = db_accessor()
 
 bot_cogs = {
 	'owner':OwnerCog(bot, db),
-	'competition':CompetitionCog(bot, db),
-	'quest':QuestCog(bot, db),
+	'facils':FacilCog(bot, db),
 	'manager':ManagerCog(bot, db),
 	'setup':SetupCog(bot, db),
 	'roles':RoleCog(bot, db)

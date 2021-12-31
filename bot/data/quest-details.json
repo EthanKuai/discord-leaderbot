@@ -3,57 +3,48 @@
 	"template": {
 		"name": "Title used to refer to this",
 		"description": "Short 1-liner description",
-		"points": "Array of possible points one can get from completing the quest (be it partial competion or not). Leave empty if any possible points.",
-		"default_points": "Points which will be given to all groups from the start of the game. Will remain so unless user overrides with another input."
+		"points": "Array of possible points one can get from completing the quest (be it partial competion or not). Leave empty if any possible points."
 	},
 	"quests": [
 		{
 			"name": "Sour Patch [5-10min]",
 			"description": "@ outside council room/401",
-			"points": [120],
-			"default_points": 0
+			"points": [120]
 		},
 		{
 			"name": "Secret Mission [2 part]",
 			"description": "(a)@ lounge/402 (b)@ exercise corner/Blk B L4 space",
-			"points": [200],
-			"default_points": 0
+			"points": [200]
 		},
 		{
 			"name": "If The Wind Does Not Serve, Take The Oars [10min]",
 			"description": "@ outside theatrette/403",
-			"points": [120],
-			"default_points": 0
+			"points": [120]
 		},
 		{
 			"name": "In The Name of Holy Fat Man And Little Boy [10min]",
 			"description": "@ basketball court bench/404",
-			"points": [20,40,60,80,100,120,200],
-			"default_points": 0
+			"points": [20,40,60,80,100,120,200]
 		},
 		{
 			"name": "Mass Buff Time [5min]",
 			"description": "@ amphitheatre/405",
-			"points": [100],
-			"default_points": 0
+			"points": [100]
 		},
 		{
 			"name": "I Like To Shake It [5min]",
 			"description": "@ canteen/406",
-			"points": [100],
-			"default_points": 0
+			"points": [100]
 		},
 		{
 			"name": "Sappers At Work",
 			"description": "@ canteen/L5 Corridor",
-			"points": [50,100,150],
-			"default_points": 0
+			"points": [50,100,150]
 		},
 		{
 			"name": "Greed",
 			"description": "@ eco pond/L5 Corridor",
-			"points": [],
-			"default_points": 0
+			"points": []
 		}
 	]
 }

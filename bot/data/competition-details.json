@@ -3,27 +3,23 @@
 	"template": {
 		"name": "Title used to refer to this",
 		"description": "Short 1-liner description",
-		"points": "Array of points for leaderboards in sequence, first in array being points given for getting 1st and so on",
-		"default_points": "Consolation prize. Given to those who scored badly."
+		"points": "Array of points for leaderboards in sequence, first in array being points given for getting 1st and so on"
 	},
 	"competitions": [
 		{
 			"name": "Obstacle Course",
 			"description": "House of cards, @ outside DnE Lab/<insert>",
-			"points": [600,-200],
-			"default_points": 0
+			"points": [600,-200]
 		},
 		{
 			"name": "Grand Heist",
 			"description": "Hoarde balls, @ base",
-			"points": [600,-200],
-			"default_points": 0
+			"points": [600,-200]
 		},
 		{
 			"name": "Baguette",
 			"description": "Ball throwing, @ base",
-			"points": [600,-200],
-			"default_points": 0
+			"points": [600,-200]
 		}
 	]
 }

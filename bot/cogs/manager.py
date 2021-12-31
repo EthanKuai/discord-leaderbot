@@ -15,28 +15,16 @@ class ManagerCog(commands.Cog):
 	@commands.command()
 	@check_server()
 	@check_manager()
-	async def startgame(self, ctx):
-		"""Starts game"""
-		global GAME_ONGOING
-		if not GAME_ONGOING:
-			GAME_ONGOING = True
-			await ctx.reply("Game started!")
-		else:
-			await ctx.reply("Game already started!")
-		# send messages to all channels for evrything
+	@confirmation()
+	async def reset(self, ctx):
+		"""resets game"""
+		self.db.reset_scoreboard()
+		await ctx.reply("Game reset!")
+
 
 	"""
+	send messages to all channels for scoreboard each
+	update leaderboards message
 	create command to set roles for others (manager)
 	reset points for everyone
 	"""
-
-
-	@commands.command()
-	@check_server()
-	@check_manager()
-	@check_game()
-	async def endgame(self, ctx):
-		"""Ends game"""
-		global GAME_ONGOING
-		GAME_ONGOING = False
-		await ctx.reply("Game ended!")

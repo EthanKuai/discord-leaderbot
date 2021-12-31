@@ -1,11 +1,13 @@
 import os
+from pandas import read_csv
+from datetime import datetime
 
 
 class db_accessor:
 	"""Accesses environmental variables."""
 
 	def __init__(self):
-		self._ENV_LST = ['TOKEN','GUILD_ID','CHANNEL_ROLES','CHANNEL_LEADERBOARDS','MESSAGE_ROLES_LIST']
+		self._ENV_LST = ['TOKEN','GUILD_ID','CHANNEL_ROLES','CHANNEL_LEADERBOARDS','MESSAGE_ROLES_LIST','N_CLASSES','N_GROUPS']
 		try:
 			for i in self._ENV_LST:
 				exec(f'self.{i} = os.environ["{i}"]')
@@ -14,6 +16,21 @@ class db_accessor:
 			print("db.__init__: Failed to read environmental variables & database")
 			print(e)
 			exit()
+		self._create_scoreboard()
+
+
+	def _create_scoreboard(self):
+		self.scoreboard = read_csv("bot/data/scores.csv")
+
+
+	def reset_scoreboard(self):
+		self.scoreboard = read_csv("bot/data/scores-default.csv")
+		os.rename("bot/data/scores.csv", "bot/data/scores"+str(datetime.now()).replace(":","-")+".csv")
+		self.save_scoreboard()
+
+
+	def save_scoreboard(self):
+		self.scoreboard.to_csv("bot/data/scores.csv")
 
 
 	def add_variable(self, name: str, val, strval: str = ""):

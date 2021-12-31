@@ -3,7 +3,6 @@ from discord.ext import commands
 
 
 MANAGER_ROLE = "Manager" # name of manager role
-GAME_ONGOING = False # True iff game ongoing, only manager can change.
 local_bot = None # bot
 local_db = None # db
 
@@ -19,7 +18,7 @@ def setup_checks(bot, db):
 """Checks to be used for discord bot commands"""
 
 
-async def confirmation(ctx, /, emoji: str = "✅", timeout: int = 30):
+def confirmation(*, emoji: str = "✅", timeout: int = 30):
 	"""Sends confirmation message to user to react before proceeding."""
 	async def inner_fn(ctx):
 		global local_bot
@@ -46,13 +45,6 @@ def check_server():
 	def inner_fn(ctx):
 		global local_db
 		return ctx.guild.id==local_db.GUILD_ID
-	return commands.check(inner_fn)
-
-
-def check_game():
-	def inner_fn(ctx):
-		global GAME_ONGOING
-		return GAME_ONGOING
 	return commands.check(inner_fn)
 
 

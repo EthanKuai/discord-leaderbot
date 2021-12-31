@@ -13,7 +13,7 @@ class SetupCog(commands.Cog):
 
 
 	@commands.command()
-	@commands.has_permissions(administrator = True)
+	@check_manager()
 	async def setup(self, ctx):
 		"""Setup the full server for game, only usable by an admin. First give the bot admin perms."""
 		msg = ctx.reply("Would you like to begin the set-up process? Please do NOT stop halfway through.")
@@ -28,6 +28,7 @@ class SetupCog(commands.Cog):
 	send save messageid for leaderboard message
 	save number of classes, number of groups within each class
 	create save channel for each class
+	create leaderboards file
 	"""
 
 	@setup.error
