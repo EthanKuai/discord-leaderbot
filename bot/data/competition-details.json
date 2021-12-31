@@ -1,0 +1,29 @@
+{
+	"_comment": "List of competitions in this game. Competitions are defined as groups earning a pre-set amount of points, purely depending on their position in the competition. Their position in the competition would be sorted based on 'sub-points' (essentially points, but competition-specific, instead of game-wide).",
+	"template": {
+		"name": "Title used to refer to this",
+		"description": "Short 1-liner description",
+		"points": "Array of points for leaderboards in sequence, first in array being points given for getting 1st and so on",
+		"default_points": "Consolation prize. Given to those who scored badly."
+	},
+	"competitions": [
+		{
+			"name": "Obstacle Course",
+			"description": "House of cards, @ outside DnE Lab/<insert>",
+			"points": [600,-200],
+			"default_points": 0
+		},
+		{
+			"name": "Grand Heist",
+			"description": "Hoarde balls, @ base",
+			"points": [600,-200],
+			"default_points": 0
+		},
+		{
+			"name": "Baguette",
+			"description": "Ball throwing, @ base",
+			"points": [600,-200],
+			"default_points": 0
+		}
+	]
+}
