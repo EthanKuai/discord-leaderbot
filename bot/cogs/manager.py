@@ -21,7 +21,7 @@ class ManagerCog(commands.Cog):
 	async def reset(self, ctx):
 		"""resets game"""
 		self.db.reset_scoreboard()
-		await self.facil.display_details()
+		await self.facil.display_details(ctx)
 		await ctx.reply("Game reset!")
 
 

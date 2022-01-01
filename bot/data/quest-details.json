@@ -13,7 +13,7 @@
 		},
 		{
 			"name": "Secret Mission [2 part]",
-			"description": "(a)@ lounge/402 (b)@ exercise corner/Blk B L4 space",
+			"description": "(a)@ lounge/402",
 			"points": [200]
 		},
 		{
@@ -42,7 +42,7 @@
 			"points": [50,100,150]
 		},
 		{
-			"name": "Greed",
+			"name": "Greed [<5min]",
 			"description": "@ eco pond/L5 Corridor",
 			"points": []
 		}

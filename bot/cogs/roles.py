@@ -23,20 +23,23 @@ class RoleCog(commands.Cog):
 		user = ctx.message.author
 		desc = "**Roles added/removed**:\n"
 
-		for role_str in roles:
-			role_str = role_str.strip()
-			if role_str in self.valid_roles:
-				role_obj = get(user.guild.roles, name=role_str)
-				if get(user.roles, name=role_str) is None: # do not currently have role, so add
-					await user.add_roles(role_obj)
-					desc += f"{role_str}: ✅ Added\n"
-				else: # already has role, so remove
-					await user.remove_roles(role_obj)
-					desc += f"{role_str}: ✅ Removed\n"
-			else:
-				tmp = role_str.replace('*','\*').replace('_','\_')
-				desc += f"{tmp}: ❎ Wrong name!\n"
+		try:
+			for role_str in roles:
+				role_str = role_str.strip()
+				if role_str in self.valid_roles:
+					role_obj = get(user.guild.roles, name=role_str)
+					if get(user.roles, name=role_str) is None: # do not currently have role, so add
+						await user.add_roles(role_obj)
+						desc += f"{role_str}: ✅ Added\n"
+					else: # already has role, so remove
+						await user.remove_roles(role_obj)
+						desc += f"{role_str}: ✅ Removed\n"
+				else:
+					tmp = role_str.replace('*','\*').replace('_','\_')
+					desc += f"{tmp}: ❎ Wrong name!\n"
 
-		await ctx.message.delete()
-		out_msg = discord.Embed(description=desc+"*P.S. Role names are case sensitive.*").set_footer(text=str(ctx.author),icon_url=ctx.author.avatar_url)
-		await ctx.send(ctx.message.author.mention, embed=out_msg, delete_after=10)
+			await ctx.message.delete()
+			out_msg = discord.Embed(description=desc+"*P.S. Role names are case sensitive.*").set_footer(text=str(ctx.author),icon_url=ctx.author.avatar_url)
+			await ctx.send(ctx.message.author.mention, embed=out_msg, delete_after=10)
+		except:
+			await ctx.send("Admins have to create gorup & class roles to be lower priority than mine's.")

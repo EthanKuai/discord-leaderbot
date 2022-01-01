@@ -9,17 +9,12 @@
 		{
 			"name": "Obstacle Course",
 			"description": "House of cards, @ outside DnE Lab/<insert>",
-			"points": [600,-200]
-		},
-		{
-			"name": "Grand Heist",
-			"description": "Hoarde balls, @ base",
-			"points": [600,-200]
+			"points": [600,300,-200]
 		},
 		{
 			"name": "Baguette",
 			"description": "Ball throwing, @ base",
-			"points": [600,-200]
+			"points": [600,300,-200]
 		}
 	]
 }

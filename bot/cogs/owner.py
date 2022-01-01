@@ -116,3 +116,9 @@ class OwnerCog(commands.Cog):
 				await ctx.send("Unconfirmed! Execute this in private channel.")
 		except:
 			await ctx.send("failed.")
+
+	@commands.command(name='_quit', hidden=True)
+	@commands.is_owner()
+	async def debug_quit(self, ctx):
+		"""Warning!! Quits."""
+		quit()

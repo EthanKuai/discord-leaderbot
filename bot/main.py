@@ -3,7 +3,7 @@ from discord.ext import commands
 
 from bot import *
 from .cogs import *
-from .keep_alive import alive
+#from .keep_alive import alive
 
 
 # bot
@@ -12,6 +12,7 @@ help_command = commands.DefaultHelpCommand(no_category = 'Others')
 intents = discord.Intents.default()
 intents.members = True
 intents.reactions = True
+intents.guilds = True
 intents.typing = False
 intents.presences = False
 
@@ -53,7 +54,7 @@ def main():
 	global bot
 	for bot_cog in bot_cogs.values(): bot.add_cog(bot_cog)
 	setup_checks(bot, db)
-	alive()
+	#alive()
 	bot.run(db.TOKEN, bot=True, reconnect=True)
 
 if __name__ == '__main__':
