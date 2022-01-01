@@ -22,6 +22,7 @@ class ManagerCog(commands.Cog):
 		"""resets game"""
 		self.db.reset_scoreboard()
 		await self.facil.display_details(ctx)
+		await self.facil.display_leaderboards(ctx)
 		await ctx.reply("Game reset!")
 
 
