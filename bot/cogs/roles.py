@@ -49,4 +49,5 @@ class RoleCog(commands.Cog):
 	@role.error
 	async def role_error(self, ctx, error):
 		if isinstance(error, commands.CheckFailure):
-			await ctx.reply("Wrong channel. Go to "+self.bot.get_channel(self.db.CHANNEL_ROLES).mention)
+			await ctx.message.delete()
+			await ctx.send("Wrong channel. Go to "+self.bot.get_channel(self.db.CHANNEL_ROLES).mention, delete_after=10)

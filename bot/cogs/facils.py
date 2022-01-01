@@ -46,7 +46,7 @@ class FacilCog(commands.Cog):
 
 
 	def competition_points(self, lst: list, comp: dict):
-		"""Returns & accepts [(rank, class_no, score, points)]"""
+		"""Returns & accepts [[rank, class_no, score, points] x n]"""
 		lst = sorted(lst, key=lambda x: -x[2])
 		for rank in range(1, 1+len(lst)):
 			if lst[rank-1][2]==0: # havn't played
@@ -88,7 +88,7 @@ class FacilCog(commands.Cog):
 				return '❎'
 
 			rankings = self.competition_points([
-				(0, class_no+1, self.db.scoreboard.at[class_no*self.db.N_GROUPS, "C"+str(comp_no)], 0)
+				[0, class_no+1, self.db.scoreboard.at[class_no*self.db.N_GROUPS, "C"+str(comp_no)], 0]
 				for class_no in range(self.db.N_CLASSES//2)
 			], comp) # [(rank, class_no, score, points)]
 			rankings_str = []
@@ -103,7 +103,7 @@ class FacilCog(commands.Cog):
 			)
 
 			rankings = self.competition_points([
-				(0, class_no+1, self.db.scoreboard.at[class_no*self.db.N_GROUPS, "C"+str(comp_no)], 0)
+				[0, class_no+1, self.db.scoreboard.at[class_no*self.db.N_GROUPS, "C"+str(comp_no)], 0]
 				for class_no in range(self.db.N_CLASSES//2,self.db.N_CLASSES)
 			], comp) # [(rank, class_no, score, points)]
 			rankings_str = []
@@ -118,32 +118,56 @@ class FacilCog(commands.Cog):
 			)
 
 		# quest rankings
-		quest_points = [(i+1, points) for i, points in enumerate(quest_points)]
+		quest_points = [[i+1, points, 0] for i, points in enumerate(quest_points)]
 		quest_points = sorted(quest_points, key=lambda x: -x[1])
-		quest_points_str = [f"**{i+1}** 40{class_no} ({points} Trophies)" for i, (class_no, points) in enumerate(quest_points)]
+		quest_points_str = ""
+		for i in range(len(quest_points)):
+			class_no = quest_points[i][0]
+			points = quest_points[i][1]
+			if i>0 and quest_points[i-1][1] == points: # tied
+				quest_points[i][2] = quest_points[i-1][2] # rank
+			else:
+				quest_points[i][2] = i + 1 # rank
+			quest_points_str += f"**{quest_points[i][2]}** 40{class_no} ({points} Trophies)\n"
 		embed = embed.add_field(
 			name = "Quest Rankings",
-			value = '\n'.join(quest_points_str),
+			value = quest_points_str,
 			inline = True
 		)
 
 		# competition rankings
-		comp_points = [(i+1, points) for i, points in enumerate(comp_points)]
+		comp_points = [[i+1, points, 0] for i, points in enumerate(comp_points)]
 		comp_points = sorted(comp_points, key=lambda x: -x[1])
-		comp_points_str = [f"**{i+1}** 40{class_no} ({points} Trophies)" for i, (class_no, points) in enumerate(comp_points)]
+		comp_points_str = ""
+		for i in range(len(comp_points)):
+			class_no = comp_points[i][0]
+			points = comp_points[i][1]
+			if i>0 and comp_points[i-1][1] == points: # tied
+				comp_points[i][2] = comp_points[i-1][2] # rank
+			else:
+				comp_points[i][2] = i + 1 # rank
+			comp_points_str += f"**{comp_points[i][2]}** 40{class_no} ({points} Trophies)\n"
 		embed = embed.add_field(
 			name = "Defence Rankings",
-			value = '\n'.join(comp_points_str),
+			value = comp_points_str,
 			inline = True
 		)
 
 		# overall rankings
-		class_points = [(i+1, points) for i, points in enumerate(class_points)]
+		class_points = [[i+1, points, 0] for i, points in enumerate(class_points)]
 		class_points = sorted(class_points, key=lambda x: -x[1])
-		class_points_str = [f"**{i+1}** 40{class_no} ({points} Trophies)" for i, (class_no, points) in enumerate(class_points)]
+		class_points_str = ""
+		for i in range(len(class_points)):
+			class_no = class_points[i][0]
+			points = class_points[i][1]
+			if i>0 and class_points[i-1][1] == points: # tied
+				class_points[i][2] = class_points[i-1][2] # rank
+			else:
+				class_points[i][2] = i + 1 # rank
+			class_points_str += f"**{class_points[i][2]}** 40{class_no} ({points} Trophies)\n"
 		embed = embed.add_field(
-			name = "OVERALL CLASS RANKINGS",
-			value = '\n'.join(class_points_str),
+			name = "OVERALL RANKINGS",
+			value = class_points_str,
 			inline = True
 		)
 
@@ -228,6 +252,10 @@ class FacilCog(commands.Cog):
 		channelid = ctx.message.channel.id
 		await ctx.message.delete()
 
+		if self.state:
+			self.state = False
+			await self.get_msgs_roles(ctx) # read msgs from db
+
 		# check valid channel
 		if channelid not in self.db.CHANNEL_FACILS:
 			await ctx.send("Wrong channel! Please use the dedicated class channels.", delete_after=10)
@@ -248,7 +276,7 @@ class FacilCog(commands.Cog):
 		if len(grouproles) > 1:
 			await ctx.send("You have more than one group roles! Please go to the dedicated role assigning channel and use `.role <group role>` to remove the extra roles. E.g. `.role A`", delete_after=10)
 			return
-		group_no = ord(grouproles[0])-64
+		group_no = ord(str(grouproles[0]))-64
 
 		# check valid quest number
 		if which < 1 or which > len(self.quests):
@@ -269,6 +297,10 @@ class FacilCog(commands.Cog):
 		user = ctx.message.author
 		channelid = ctx.message.channel.id
 		await ctx.message.delete()
+
+		if self.state:
+			self.state = False
+			await self.get_msgs_roles(ctx) # read msgs from db
 
 		# check valid channel
 		if channelid not in self.db.CHANNEL_FACILS:
