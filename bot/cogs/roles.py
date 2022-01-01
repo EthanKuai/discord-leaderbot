@@ -17,6 +17,7 @@ class RoleCog(commands.Cog):
 
 	@commands.command()
 	@check_server()
+	@check_role_channel()
 	async def role(self, ctx, *, roles: str):
 		"""Adds/removes class & group roles for yourself, separated by commas."""
 		roles = roles.split(',')
@@ -43,3 +44,9 @@ class RoleCog(commands.Cog):
 			await ctx.send(ctx.message.author.mention, embed=out_msg, delete_after=10)
 		except:
 			await ctx.send("Admins have to create gorup & class roles to be lower priority than mine's.")
+
+
+	@role.error
+	async def role_error(self, ctx, error):
+		if isinstance(error, commands.CheckFailure):
+			await ctx.reply("Wrong channel. Go to "+self.bot.get_channel(self.db.CHANNEL_ROLES).mention)

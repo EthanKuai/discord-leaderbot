@@ -34,7 +34,6 @@ bot_cogs = {
 	'setup':SetupCog(bot, db),
 	'roles':RoleCog(bot, db)
 }
-bot_cogs['manager'] = ManagerCog(bot, db, bot_cogs['facils'])
 
 
 # bot commands

@@ -2,6 +2,7 @@ import os
 import json
 from pandas import read_csv
 from datetime import datetime
+from time import time
 
 
 class db_accessor:
@@ -15,6 +16,7 @@ class db_accessor:
 		except Exception as e:
 			print("db.__init__: Failed to read data\n",e)
 			exit()
+		self.last_save_scoreboard = time()
 
 
 	def read_scoreboard(self):
@@ -24,11 +26,14 @@ class db_accessor:
 	def reset_scoreboard(self):
 		self.scoreboard = read_csv("bot/data/scores-default.csv")
 		os.rename("bot/data/scores.csv", "bot/data/scores"+str(datetime.now()).replace(":","-")+".csv")
-		self.save_scoreboard()
+		self.scoreboard.to_csv("bot/data/scores.csv", index = False)
 
 
 	def save_scoreboard(self):
-		self.scoreboard.to_csv("bot/data/scores.csv", index = False)
+		now = time()
+		if now - self.last_save_scoreboard > 45:
+			self.last_save_scoreboard = now
+			self.scoreboard.to_csv("bot/data/scores.csv", index = False)
 
 
 	def read_server_data(self):
@@ -47,15 +52,3 @@ class db_accessor:
 			dct[key] = eval(f"self.{key}")
 		with open('bot/data/server-details.json', 'w') as f:
 			json.dump(dct, f)
-
-
-	def update_data(self):
-		"""Overwrite all data in database with current data."""
-		try:
-			self.save_scoreboard()
-			self.save_server_data()
-		except:
-			print("db.update_data: Failed to update data")
-			exit()
-		else:
-			return True

@@ -51,3 +51,10 @@ def check_server():
 def check_manager():
 	global MANAGER_ROLE
 	return commands.check_any(commands.has_role(MANAGER_ROLE), commands.is_owner())
+
+
+def check_role_channel():
+	def inner_fn(ctx):
+		global local_db
+		return int(ctx.channel.id)==int(local_db.CHANNEL_ROLES)
+	return commands.check(inner_fn)
