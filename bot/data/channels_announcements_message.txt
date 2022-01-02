@@ -1,0 +1,11 @@
+f"""First assign your own roles at {channel_roles.mention} (you can change it anytime)
+Then go to your assigned classes' channels {' '.join(c.mention for c in channel_classes)}
+
+In there, you get to use 2 commands:
+**1** `.quest <quest number> <trophies>` If trophies is 0 or left blank, will revert back to "undone :negative_squared_cross_mark: " state.
+**2** `.defence <game number> <score>` If score is 0 or left blank, will revert back to "undone :negative_squared_cross_mark: " state.
+
+The respective messages in {' '.join(c.mention for c in channel_classes)} should auto-update accordingly.
+Check {channel_leaderboards.mention} to see live updates. (You can show this to the Year 4s)
+
+***Note.*** Your bot commands will be auto-deleted to keep the channels uncluttered."""

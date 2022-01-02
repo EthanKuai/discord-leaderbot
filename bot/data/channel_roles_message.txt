@@ -1,0 +1,12 @@
+Use `.role <roles separated by ,>` to assign roles to yourself.
+**NOTE THIS DOES NOT ONLY ADD ROLES BUT CHANGES THE STATUS OF THE ROLE**
+> ie. already have role -> no longer have role & vice versa
+
+**Available roles**
+*CLASS ROLES*     1, 2, 3, 4, 5, 6
+*GROUP ROLES*     A, B, C, D, E
+
+**Examples**
+If you are in-charge of 401, use `.role 1`
+If you are in-charge of 401 & 1B for quests, use `.role 1,B`
+If you accidentally gave yourself the wrong role, you can always undo it with the same command

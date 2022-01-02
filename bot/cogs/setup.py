@@ -14,11 +14,56 @@ class SetupCog(commands.Cog):
 
 	@commands.command()
 	@check_manager()
-	async def setup(self, ctx):
+	@confirmation()
+	async def setup(self, ctx, n_classes: int, n_groups: int):
 		"""Setup the full server for game, only usable by an admin. First give the bot admin perms."""
-		msg = ctx.reply("Would you like to begin the set-up process? Please do NOT stop halfway through.")
-		userid = ctx.message.author.id
-		# await ctx.guild.create_text_channel(channel_name)
+		# guild
+		guild = ctx.guild
+		self.db.GUILDID = guild.id
+		overwrites = {
+			guild.default_role: discord.PermissionOverwrite(send_messages=False)
+		}
+
+		# create category
+		category_admin = await guild.create_category("ADMIN")
+		category_classes = await guild.create_category("CLASSES")
+		await ctx.send("Created categories")
+
+		# roles channel
+		channel_roles = await guild.create_text_channel("assign-roles", category=category_admin)
+		self.db.CHANNEL_ROLES = channel_roles.id
+		with open("bot/data/channel_roles_message.txt") as f: msg_roles = f.read()
+		await channel_roles.send(msg_roles)
+		await ctx.send("Created roles channel")
+
+		# leaderboards channel
+		channel_leaderboards = await guild.create_text_channel("leaderboards", category=category_admin, overwrites=overwrites)
+		self.db.CHANNEL_LEADERBOARDS = channel_leaderboards.id
+		await ctx.send("Created leaderboards channel")
+
+		# classes channels
+		self.db.N_CLASSES = n_classes
+		self.db.N_GROUPS = n_groups
+		channel_classes = [await guild.create_text_channel("40"+str(i+1), category=category_classes) for i in range(n_classes)]
+		self.db.CHANNEL_FACILS = channel_classes
+		await ctx.send("Created classes' channels")
+
+		# announcements channel
+		channel_announcements = await guild.create_text_channel("announcements", category=category_admin, overwrites=overwrites)
+		with open("bot/data/channel_announcements_message.txt") as f: msg_announcements = eval(f.read())
+		await channel_announcements.send(msg_announcements)
+		await ctx.send("Created announcements channel")
+
+		# save
+		self.db.save_server_data()
+
+
+	@commands.command()
+	@check_manager()
+	@confirmation()
+	@check_server()
+	async def roles(self, ctx):
+		pass
 
 	"""
 	save guildid
