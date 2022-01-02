@@ -13,7 +13,7 @@ class SetupCog(commands.Cog):
 
 
 	@commands.command()
-	@check_manager()
+	@check_owner()
 	@confirmation()
 	async def setup(self, ctx, n_classes: int, n_groups: int):
 		"""Setup the full server for game, only usable by an admin. First give the bot admin perms."""
@@ -53,6 +53,13 @@ class SetupCog(commands.Cog):
 		with open("bot/data/channel_announcements_message.txt") as f: msg_announcements = eval(f.read())
 		await channel_announcements.send(msg_announcements)
 		await ctx.send("Created announcements channel")
+
+		# create roles
+		lst = [str(i+1) for i in range(n_classes)] + [chr(65+i) for i in range(n_groups)]
+		for i in lst: await guild.create_role(name=i)
+		manager_role = await guild.create_role(name="Manager")
+		await ctx.author.add_roles(manager_role)
+		await ctx.send("Created roles")
 
 		# save
 		self.db.save_server_data()

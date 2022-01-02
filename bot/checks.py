@@ -49,8 +49,15 @@ def check_server():
 
 
 def check_manager():
-	global MANAGER_ROLE
-	return commands.check_any(commands.has_role(MANAGER_ROLE), commands.is_owner())
+	def inner_fn(ctx):
+		return ctx.guild.owner_id==ctx.author.id
+	return commands.check_any(commands.has_role(MANAGER_ROLE), inner_fn)
+
+
+def check_owner():
+	def inner_fn(ctx):
+		return ctx.guild.owner_id==ctx.author.id
+	return commands.check(inner_fn)
 
 
 def check_role_channel():
