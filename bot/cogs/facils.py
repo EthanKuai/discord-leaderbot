@@ -94,7 +94,7 @@ class FacilCog(commands.Cog):
 			rankings_str = []
 			for (rank, class_no, score, points) in rankings:
 				rankings_str.append(f"**{rank}** 40{class_no} ({points} Trophies) (Score: {inner_fn(score)})")
-				comp_points[class_no-1] = points
+				comp_points[class_no-1] += points
 				class_points[class_no-1] += points
 			embed = embed.add_field(
 				name = f"Defence {comp_no}. {comp['name']}",
@@ -109,7 +109,7 @@ class FacilCog(commands.Cog):
 			rankings_str = []
 			for (rank, class_no, score, points) in rankings:
 				rankings_str.append(f"**{rank}** 40{class_no} ({points} Trophies) (Score: {inner_fn(score)})")
-				comp_points[class_no-1] = points
+				comp_points[class_no-1] += points
 				class_points[class_no-1] += points
 			embed = embed.add_field(
 				name = f"Defence {comp_no}. {comp['name']}",
