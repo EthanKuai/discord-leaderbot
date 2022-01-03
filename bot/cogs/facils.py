@@ -284,6 +284,7 @@ class FacilCog(commands.Cog):
 			return
 
 		# update scoreboard & save locally
+		await ctx.send(f"[Group {class_no}{chr(64+group_no)}] {user.mention}\nUpdated **quest {which}. {self.quests[which-1]['name']}** to {value} trophies.", delete_after=5)
 		self.db.scoreboard.at[(class_no-1)*self.db.N_GROUPS+group_no-1, "Q"+str(which)] = value
 		self.db.save_scoreboard()
 		await self.display_details(ctx,class_no)

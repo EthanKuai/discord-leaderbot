@@ -25,6 +25,7 @@ class RoleCog(commands.Cog):
 		desc = "**Roles added/removed**:\n"
 
 		try:
+			await ctx.message.delete()
 			for role_str in roles:
 				role_str = role_str.strip()
 				if role_str in self.valid_roles:
@@ -39,8 +40,9 @@ class RoleCog(commands.Cog):
 					tmp = role_str.replace('*','\*').replace('_','\_')
 					desc += f"{tmp}: ❎ Wrong name!\n"
 
-			await ctx.message.delete()
-			out_msg = discord.Embed(description=desc+"*P.S. Role names are case sensitive.*").set_footer(text=str(ctx.author),icon_url=ctx.author.avatar_url)
+			desc += "\n**Current roles:** " + ', '.join([str(i) for i in user.roles[1:]])
+			desc += "\n*P.S. Role names are case sensitive.*"
+			out_msg = discord.Embed(description=desc).set_footer(text=str(ctx.author),icon_url=ctx.author.avatar_url)
 			await ctx.send(ctx.message.author.mention, embed=out_msg, delete_after=10)
 		except:
 			await ctx.send("Admins have to create gorup & class roles to be lower priority than mine's.")
